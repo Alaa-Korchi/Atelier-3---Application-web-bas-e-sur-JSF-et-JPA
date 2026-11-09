@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml">
+
+    <ui:define name="titre">Panier</ui:define>
+
+    <ui:define name="contenu">
+        <h1>Mon panier</h1>
+
+        <h:panelGroup rendered="#{not internauteBean.connecte}">
+            <p class="vide">Veuillez <h:link outcome="login" value="vous connecter"/> pour consulter votre panier.</p>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{internauteBean.connecte and empty panierBean.lignes}">
+            <p class="vide">Votre panier est vide. <h:link outcome="index" value="Retour à la vitrine"/></p>
+        </h:panelGroup>
+
+        <h:form rendered="#{internauteBean.connecte and not empty panierBean.lignes}">
+            <h:dataTable value="#{panierBean.lignes}" var="l" styleClass="tableau"
+                         headerClass="entete" rowClasses="ligne-paire,ligne-impaire">
+                <h:column>
+                    <f:facet name="header">Produit</f:facet>
+                    <strong>#{l.produit.nom}</strong><br/>
+                    <small>#{l.produit.categorie.nom}</small>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Prix unitaire</f:facet>
+                    <h:outputText value="#{l.produit.prix}"><f:convertNumber pattern="#,##0.00"/></h:outputText> MAD
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantité</f:facet>
+                    <h:inputText value="#{l.quantite}" size="3" styleClass="champ-qte"
+                                 converterMessage="Quantité invalide.">
+                        <f:validateLongRange minimum="1"/>
+                    </h:inputText>
+                    <h:commandButton value="Mettre à jour" styleClass="bouton petit secondaire"
+                                     action="#{panierBean.modifierQuantite(l)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Sous-total</f:facet>
+                    <h:outputText value="#{l.sousTotal}"><f:convertNumber pattern="#,##0.00"/></h:outputText> MAD
+                </h:column>
+                <h:column>
+                    <h:commandButton value="Retirer" styleClass="bouton petit danger"
+                                     action="#{panierBean.retirer(l)}" immediate="true"/>
+                </h:column>
+            </h:dataTable>
+
+            <div class="total">
+                <span>Total</span>
+                <strong><h:outputText value="#{panierBean.total}"><f:convertNumber pattern="#,##0.00"/></h:outputText> MAD</strong>
+            </div>
+
+            <div class="actions">
+                <h:commandButton value="Vider le panier" styleClass="bouton secondaire"
+                                 action="#{panierBean.vider}" immediate="true"/>
+                <h:link outcome="index" value="Continuer mes achats" styleClass="bouton-lien"/>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

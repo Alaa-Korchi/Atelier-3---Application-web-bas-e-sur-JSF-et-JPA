@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml">
+
+    <ui:define name="titre">Vitrine</ui:define>
+
+    <ui:define name="contenu">
+        <h1>#{empty vitrineBean.vitrine ? 'Vitrine' : vitrineBean.vitrine.nom}</h1>
+
+        <h:form styleClass="filtres">
+            <h:selectOneMenu value="#{vitrineBean.categorieId}">
+                <f:selectItem itemLabel="Toutes les catégories" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{vitrineBean.categories}" var="c"
+                               itemValue="#{c.id}" itemLabel="#{c.nom}"/>
+            </h:selectOneMenu>
+            <h:inputText value="#{vitrineBean.motCle}" styleClass="champ-recherche"
+                         pt:placeholder="Rechercher un produit..."
+                         xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"/>
+            <h:commandButton value="Filtrer" action="#{vitrineBean.rechercher}" styleClass="bouton"/>
+            <h:commandButton value="Réinitialiser" action="#{vitrineBean.reinitialiser}" styleClass="bouton secondaire"/>
+        </h:form>
+
+        <h:panelGroup rendered="#{empty vitrineBean.produits}">
+            <p class="vide">Aucun produit ne correspond à votre recherche.</p>
+        </h:panelGroup>
+
+        <div class="grille">
+            <ui:repeat value="#{vitrineBean.produits}" var="p">
+                <article class="carte">
+                    <div class="visuel">#{p.initiale}</div>
+                    <span class="etiquette">#{p.categorie.nom}</span>
+                    <h3>#{p.nom}</h3>
+                    <p class="description">#{p.description}</p>
+                    <div class="bas-carte">
+                        <span class="prix">
+                            <h:outputText value="#{p.prix}"><f:convertNumber pattern="#,##0.00"/></h:outputText> MAD
+                        </span>
+                        <span class="stock #{p.stock le 5 ? 'stock-faible' : ''}">
+                            <h:outputText value="Rupture de stock" rendered="#{p.stock le 0}"/>
+                            <h:outputText value="Stock : #{p.stock}" rendered="#{p.stock gt 0}"/>
+                        </span>
+                    </div>
+                    <h:form>
+                        <h:commandButton value="Ajouter au panier" styleClass="bouton plein"
+                                         action="#{panierBean.ajouter(p.id)}"
+                                         disabled="#{p.stock le 0}"/>
+                    </h:form>
+                </article>
+            </ui:repeat>
+        </div>
+    </ui:define>
+</ui:composition>

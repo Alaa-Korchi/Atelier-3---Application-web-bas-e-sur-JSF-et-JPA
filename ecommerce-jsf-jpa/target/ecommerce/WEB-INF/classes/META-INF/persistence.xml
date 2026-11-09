@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+    <!-- Tomcat n'est pas un serveur JEE complet : pas de JTA, on utilise des transactions locales -->
+    <persistence-unit name="ecommercePU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>ma.fstt.ecommerce.model.Categorie</class>
+        <class>ma.fstt.ecommerce.model.Produit</class>
+        <class>ma.fstt.ecommerce.model.Vitrine</class>
+        <class>ma.fstt.ecommerce.model.Internaute</class>
+        <class>ma.fstt.ecommerce.model.Panier</class>
+        <class>ma.fstt.ecommerce.model.LignePanier</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <!-- Connexion MySQL : adaptez l'utilisateur / le mot de passe -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/ecommerce_db?createDatabaseIfNotExist=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="alae2006.2021"/>
+
+            <!-- Génération automatique des tables à partir des entités -->
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+
+            <!-- Affiche le SQL généré dans la console Tomcat (utile pour le rapport) -->
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -1,0 +1,121 @@
+:root {
+    --fond: #f4f6fb;
+    --carte: #ffffff;
+    --texte: #1f2937;
+    --discret: #6b7280;
+    --primaire: #4f46e5;
+    --primaire-fonce: #4338ca;
+    --danger: #dc2626;
+    --bordure: #e5e7eb;
+    --ok: #166534;
+    --ok-fond: #dcfce7;
+    --ko: #991b1b;
+    --ko-fond: #fee2e2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: var(--fond);
+    color: var(--texte);
+    line-height: 1.5;
+}
+
+a { color: var(--primaire); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- en-tête ---------- */
+.barre { background: #111827; }
+.barre-contenu {
+    max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.logo { color: #fff; font-size: 1.3rem; font-weight: 700; letter-spacing: .5px; }
+.logo:hover { text-decoration: none; }
+.menu { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.menu a { color: #d1d5db; font-size: .95rem; }
+.menu a:hover { color: #fff; text-decoration: none; }
+.menu .utilisateur { color: #fff; font-weight: 600; margin-right: 10px; }
+.menu .bouton-lien { background: var(--primaire); color: #fff; padding: 6px 14px; border-radius: 6px; }
+
+/* ---------- page ---------- */
+.page { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; min-height: 70vh; }
+h1 { margin: 0 0 20px; font-size: 1.8rem; }
+h2 { margin: 0 0 14px; font-size: 1.2rem; }
+.pied { text-align: center; color: var(--discret); font-size: .85rem; padding: 18px; border-top: 1px solid var(--bordure); }
+.vide { background: var(--carte); border: 1px dashed var(--bordure); border-radius: 10px; padding: 28px; text-align: center; color: var(--discret); }
+.aide { color: var(--discret); font-size: .9rem; }
+
+/* ---------- messages ---------- */
+.messages { list-style: none; margin: 0 0 18px; padding: 0; }
+.messages li { padding: 10px 14px; border-radius: 8px; margin-bottom: 6px; }
+.msg-info { background: var(--ok-fond); color: var(--ok); }
+.msg-erreur { background: var(--ko-fond); color: var(--ko); }
+span.msg-erreur { background: none; font-size: .85rem; display: block; }
+
+/* ---------- boutons ---------- */
+.bouton, input[type="submit"].bouton {
+    display: inline-block; border: 1px solid var(--primaire); background: #fff; color: var(--primaire);
+    padding: 8px 16px; border-radius: 8px; font-size: .92rem; font-weight: 600; cursor: pointer;
+}
+.bouton:hover { background: #eef2ff; }
+.bouton.plein { background: var(--primaire); color: #fff; }
+.bouton.plein:hover { background: var(--primaire-fonce); }
+.bouton.secondaire { border-color: var(--bordure); color: var(--texte); }
+.bouton.danger { border-color: var(--danger); color: var(--danger); }
+.bouton.danger:hover { background: var(--ko-fond); }
+.bouton.petit { padding: 4px 10px; font-size: .8rem; }
+.bouton:disabled { opacity: .45; cursor: not-allowed; }
+.bouton-lien { padding: 8px 16px; }
+
+/* ---------- vitrine ---------- */
+.filtres { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.filtres select, .filtres input[type="text"] {
+    padding: 8px 12px; border: 1px solid var(--bordure); border-radius: 8px; background: #fff; font-size: .92rem;
+}
+.champ-recherche { min-width: 240px; }
+
+.grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+.carte {
+    background: var(--carte); border: 1px solid var(--bordure); border-radius: 14px; padding: 16px;
+    display: flex; flex-direction: column; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    transition: transform .15s, box-shadow .15s;
+}
+.carte:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.visuel {
+    height: 120px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+.etiquette { align-self: flex-start; background: #eef2ff; color: var(--primaire); font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.carte h3 { margin: 4px 0 0; font-size: 1.02rem; }
+.description { color: var(--discret); font-size: .86rem; margin: 0; flex: 1; }
+.bas-carte { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0; }
+.prix { font-weight: 700; font-size: 1.05rem; }
+.stock { font-size: .78rem; color: var(--discret); }
+.stock-faible { color: var(--danger); font-weight: 600; }
+.carte .bouton { width: 100%; text-align: center; }
+
+/* ---------- formulaires ---------- */
+.formulaire { background: var(--carte); border: 1px solid var(--bordure); border-radius: 14px; padding: 24px; max-width: 460px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 30px; }
+.formulaire.large { max-width: 620px; }
+.formulaire label { font-weight: 600; font-size: .9rem; margin-top: 8px; }
+.formulaire input[type="text"], .formulaire input[type="password"], .formulaire select {
+    padding: 9px 12px; border: 1px solid var(--bordure); border-radius: 8px; font-size: .95rem; width: 100%; background: #fff;
+}
+.formulaire input:focus, .formulaire select:focus, .filtres select:focus, .filtres input:focus {
+    outline: 2px solid #c7d2fe; border-color: var(--primaire);
+}
+.formulaire .bouton { margin-top: 14px; }
+
+/* ---------- tableaux ---------- */
+.tableau { width: 100%; border-collapse: collapse; background: var(--carte); border-radius: 12px; overflow: hidden; border: 1px solid var(--bordure); }
+.tableau th { background: #f9fafb; text-align: left; padding: 12px 14px; font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; color: var(--discret); }
+.tableau td { padding: 12px 14px; border-top: 1px solid var(--bordure); vertical-align: middle; }
+.ligne-impaire { background: #fcfcfd; }
+.champ-qte { width: 56px; padding: 5px 8px; border: 1px solid var(--bordure); border-radius: 6px; text-align: center; margin-right: 6px; }
+
+.total { display: flex; justify-content: flex-end; align-items: baseline; gap: 16px; font-size: 1.3rem; margin: 20px 4px 14px; }
+.actions { display: flex; justify-content: flex-end; gap: 12px; align-items: center; }

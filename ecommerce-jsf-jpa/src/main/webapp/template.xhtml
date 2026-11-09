@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>MarocShop - <ui:insert name="titre">Boutique</ui:insert></title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <header class="barre">
+        <div class="barre-contenu">
+            <h:link outcome="index" styleClass="logo" value="MarocShop"/>
+            <h:form styleClass="menu">
+                <h:link outcome="index" value="Vitrine"/>
+                <h:link outcome="produits" value="Catalogue (admin)"/>
+                <h:link outcome="panier" styleClass="lien-panier" value="Panier (#{panierBean.nbArticles})"/>
+                <h:panelGroup rendered="#{internauteBean.connecte}">
+                    <span class="utilisateur">#{internauteBean.internaute.nomComplet}</span>
+                    <h:commandLink action="#{internauteBean.deconnecter}" value="Déconnexion"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not internauteBean.connecte}">
+                    <h:link outcome="login" value="Connexion"/>
+                    <h:link outcome="inscription" styleClass="bouton-lien" value="Inscription"/>
+                </h:panelGroup>
+            </h:form>
+        </div>
+    </header>
+
+    <main class="page">
+        <h:messages globalOnly="true" layout="list" styleClass="messages"
+                    infoClass="msg-info" errorClass="msg-erreur" warnClass="msg-erreur"/>
+        <ui:insert name="contenu">Contenu</ui:insert>
+    </main>
+
+    <footer class="pied">Atelier JEE - JSF + JPA - FSTT</footer>
+</h:body>
+</html>

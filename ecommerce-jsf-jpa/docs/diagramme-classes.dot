@@ -1,0 +1,50 @@
+digraph G {
+  graph [rankdir=TB, nodesep=0.9, ranksep=0.9, fontname="Helvetica", bgcolor="white", pad=0.3];
+  node  [shape=plaintext, fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=10, color="#374151", arrowhead=none];
+
+  Internaute [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#eef2ff" COLOR="#4f46e5">
+      <TR><TD BGCOLOR="#4f46e5"><FONT COLOR="white"><B>Internaute</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- nom : String<BR ALIGN="LEFT"/>- prenom : String<BR ALIGN="LEFT"/>- email : String {unique}<BR ALIGN="LEFT"/>- motDePasse : String (haché)<BR ALIGN="LEFT"/>- dateInscription : LocalDate<BR ALIGN="LEFT"/></TD></TR>
+      <TR><TD ALIGN="LEFT">+ getNomComplet() : String<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  Panier [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#eef2ff" COLOR="#4f46e5">
+      <TR><TD BGCOLOR="#4f46e5"><FONT COLOR="white"><B>Panier</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- internaute : Internaute<BR ALIGN="LEFT"/>- lignes : List&lt;LignePanier&gt;<BR ALIGN="LEFT"/></TD></TR>
+      <TR><TD ALIGN="LEFT">+ ajouterProduit(p : Produit, qte : int)<BR ALIGN="LEFT"/>+ getTotal() : BigDecimal<BR ALIGN="LEFT"/>+ getNbArticles() : int<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  LignePanier [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#eef2ff" COLOR="#4f46e5">
+      <TR><TD BGCOLOR="#4f46e5"><FONT COLOR="white"><B>LignePanier</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- panier : Panier<BR ALIGN="LEFT"/>- produit : Produit<BR ALIGN="LEFT"/>- quantite : int<BR ALIGN="LEFT"/></TD></TR>
+      <TR><TD ALIGN="LEFT">+ getSousTotal() : BigDecimal<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  Produit [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#ecfdf5" COLOR="#059669">
+      <TR><TD BGCOLOR="#059669"><FONT COLOR="white"><B>Produit</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- nom : String<BR ALIGN="LEFT"/>- description : String<BR ALIGN="LEFT"/>- prix : BigDecimal<BR ALIGN="LEFT"/>- stock : int<BR ALIGN="LEFT"/>- categorie : Categorie<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  Categorie [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#ecfdf5" COLOR="#059669">
+      <TR><TD BGCOLOR="#059669"><FONT COLOR="white"><B>Categorie</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- nom : String {unique}<BR ALIGN="LEFT"/>- description : String<BR ALIGN="LEFT"/>- produits : List&lt;Produit&gt;<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  Vitrine [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#fff7ed" COLOR="#ea580c">
+      <TR><TD BGCOLOR="#ea580c"><FONT COLOR="white"><B>Vitrine</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">- id : Long<BR ALIGN="LEFT"/>- nom : String<BR ALIGN="LEFT"/>- produits : List&lt;Produit&gt;<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+  Internaute -> Panier       [taillabel="1", headlabel="1", label="possède"];
+  Panier -> LignePanier      [taillabel="1", headlabel="0..*", label="contient", arrowtail=diamond, dir=back];
+  LignePanier -> Produit     [taillabel="0..*", headlabel="1", label="concerne"];
+  Categorie -> Produit       [taillabel="1", headlabel="0..*", label="regroupe"];
+  Vitrine -> Produit         [taillabel="0..*", headlabel="0..*", label="expose"];
+}
